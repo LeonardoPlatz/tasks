@@ -22,10 +22,10 @@ pipeline {
         }
         stage('Sonar'){
             environment {
-                scanner = tool 'sonar_scanner'
+                scanner = tool 'SONAR_SCANNER'
             }
             steps {
-                withSonarQubeEnv('sonarqube'){
+                withSonarQubeEnv('SONAR '){
                     sh "${scanner}/bin/sonar-scanner -e -Dsonar.host.url=http://172.27.0.2:9000 -Dsonar.projectKey=tasks-backend -Dsonar.java.binaries=tasks-backend/target -Dsonar.exclusions=src/test/**"
                 }
             }
