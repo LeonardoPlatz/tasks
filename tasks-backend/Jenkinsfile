@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                /*Mover até a pasta*/
                 sh '''
                 cd tasks-backend/
                 mvn clean package -DskipTests
@@ -14,6 +15,7 @@ pipeline {
         }
         stage('Test'){
             steps {
+                /*Mover até a pasta*/
                 sh '''
                 cd tasks-backend/
                 mvn test
@@ -21,6 +23,7 @@ pipeline {
             }
         }
         stage('Sonar'){
+
             environment {
                 scanner = tool 'SONAR_SCANNER'
             }
@@ -41,6 +44,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/
                 sh '''
                 docker ps -q --filter "name=tasks-backend" | grep -q . && docker stop tasks-backend
                 docker build -t backend tasks-backend/
