@@ -44,7 +44,7 @@ pipeline {
 
         stage('Deploy-Backend') {
             steps {
-                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/
+                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/ /**/
                 sh '''
                 docker ps -q --filter "name=tasks-backend" | grep -q . && docker stop tasks-backend
                 docker build -t backend tasks-backend/
@@ -71,7 +71,7 @@ pipeline {
         }
         stage('Deploy-Frontend') {
             steps {
-                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/
+                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/ /*Clean-> Build-> Pega o IP do back-> Deploy*/
                 sh '''
                 docker ps -q --filter "name=tasks-frontend" | grep -q . && docker stop tasks-frontend
                 docker build -t frontend tasks-frontend/
@@ -83,7 +83,7 @@ pipeline {
         stage('Check-Frontend'){
             steps {
                 sleep(5)
-                sh """curl -I http://172.17.0.1:8002/todo"""
+                sh """curl -I http://172.17.0.1:8002"""
             }
         }
     }
