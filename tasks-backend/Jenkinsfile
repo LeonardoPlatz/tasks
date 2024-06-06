@@ -73,10 +73,10 @@ pipeline {
             steps {
                 /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/
                 sh '''
-                docker ps -q --filter "name=tasks-frontend" | grep -q . && docker stop tasks
+                docker ps -q --filter "name=tasks-frontend" | grep -q . && docker stop tasks-frontend
                 docker build -t frontend tasks-frontend/
-                IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db)
-                docker run --name tasks --rm -e DATABASE_HOST="$IP" -d -p 8001:8001 frontend
+                IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' tasks-backend)
+                docker run --name tasks-frontend --rm -e BACKEND_HOST="$IP" -d -p 8002:8002 frontend
                 '''
             }
         }
