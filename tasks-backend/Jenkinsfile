@@ -80,6 +80,12 @@ pipeline {
                 '''
             }
         }
+        stage('Check-Frontend'){
+            steps {
+                sleep(5)
+                sh """curl -I http://172.17.0.1:8002/todo"""
+            }
+        }
     }
     post {
         always {
