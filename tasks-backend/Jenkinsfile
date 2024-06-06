@@ -44,7 +44,7 @@ pipeline {
 
         stage('Deploy-Backend') {
             steps {
-                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/ /**/
+                /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/ /*Clean-> Build-> Pega o IP do Banco-> Deploy*/
                 sh '''
                 docker ps -q --filter "name=tasks-backend" | grep -q . && docker stop tasks-backend
                 docker build -t backend tasks-backend/
