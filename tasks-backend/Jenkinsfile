@@ -44,7 +44,7 @@ pipeline {
                 sh '''
                 docker ps -q --filter "name=tasks" | grep -q . && docker stop tasks
                 docker build -t backend .
-                IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' new-db)
+                IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db)
                 docker run --name tasks --rm -e DATABASE_HOST="$IP" -d -p 8001:8001 backend
                 '''
             }
