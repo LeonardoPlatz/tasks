@@ -4,7 +4,7 @@ pipeline {
         maven 'maven'
     }
     stages {
-        stage('Build') {
+        stage('Build-Backend') {
             steps {
                 /*Mover até a pasta*/
                 sh '''
@@ -13,7 +13,7 @@ pipeline {
                 '''
             }
         }
-        stage('Test'){
+        stage('Test-Backend'){
             steps {
                 /*Mover até a pasta*/
                 sh '''
@@ -22,7 +22,7 @@ pipeline {
                 '''
             }
         }
-        stage('Sonar'){
+        stage('Sonar-Backend'){
 
             environment {
                 scanner = tool 'SONAR_SCANNER'
@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('QualityGate'){
+        stage('QualityGate-Backend'){
             steps {
                 sleep(10)
                 timeout(time:1, unit:'MINUTES') {
@@ -42,7 +42,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy-Backend') {
             steps {
                 /*Mover até a pasta e verificar o nome no arquivo Dockerfile*/
                 sh '''
@@ -53,17 +53,26 @@ pipeline {
                 '''
             }
         }
-        stage('Check'){
+        stage('Check-Backend'){
             steps {
                 sleep(5)
                 sh """curl -I http://172.17.0.1:8001/todo"""
             }
         }
         /*Vamos aos Stagesa do Frontend*/
-
+        stage('Build-Frontend') {
+            steps {
+                /*Mover até a pasta*/
+                sh '''
+                cd tasks-frontend/
+                mvn clean package -DskipTests
+                '''
+            }
+        }
     }
     post {
         always {
+            /*Mover até a pasta*/
             junit allowEmptyResults: true, testResults: 'tasks-backend/target/surefire-reports/*.xml'
             archiveArtifacts artifacts: 'tasks-backend/target/tasks-backend.jar', followSymlinks: false, onlyIfSuccessful: true
         }
