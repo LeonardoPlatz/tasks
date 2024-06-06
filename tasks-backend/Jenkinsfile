@@ -42,10 +42,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                docker ps -q --filter "name=tasks" | grep -q . && docker stop tasks
-                docker build -t backend .
+                docker ps -q --filter "name=tasks-backend" | grep -q . && docker stop tasks-backend
+                docker build -t backend tasks-backend/
                 IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db)
-                docker run --name tasks --rm -e DATABASE_HOST="$IP" -d -p 8001:8001 backend
+                docker run --name tasks-backend --rm -e DATABASE_HOST="$IP" -d -p 8001:8001 backend
                 '''
             }
         }
